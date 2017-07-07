@@ -57,7 +57,8 @@ namespace TruliaMapsGoogleAPIParser.DataProviders
             }
             catch (SqlException ex)
             {
-                throw new Exception(ex.Message, ex);
+                //throw new Exception(ex.Message, ex);
+                Console.WriteLine(ex.Message);
             }
             finally
             {
@@ -333,6 +334,7 @@ namespace TruliaMapsGoogleAPIParser.DataProviders
             SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandTimeout = 600;
             cmd.CommandText = $"EXEC [dbo].[{Resources.SP_GetAddressRange}] @BEGIN = {begin}, @END = {end}";
             da.SelectCommand = cmd;
             DataSet ds = new DataSet();
@@ -354,6 +356,7 @@ namespace TruliaMapsGoogleAPIParser.DataProviders
             SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
+            cmd.CommandTimeout = 600;
             cmd.CommandText = $"EXEC [dbo].[{Resources.SP_GetPlacesRange}] @Start = {begin}, @End = {end}";
             da.SelectCommand = cmd;
             DataSet ds = new DataSet();

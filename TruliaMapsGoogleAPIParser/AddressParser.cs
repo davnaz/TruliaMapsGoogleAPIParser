@@ -18,7 +18,7 @@ namespace TruliaMapsGoogleAPIParser
         WebProxy proxy;
         public AddressParser()
         {
-           proxy = ProxySolver.Instance.getNewProxy();
+           //proxy = ProxySolver.Instance.getNewProxy();
         }
         #region Методы для получения данных местоположения через Google Maps Geocoding API
         /// <summary>
@@ -39,7 +39,7 @@ namespace TruliaMapsGoogleAPIParser
             return WebHelpers.GetWebResponceContent(GETRequestLink);
         }
 
-        public string GetJsonMapResponseThrowProxy(string addressOrLatlng, Constants.TypeOfMapGrabbing type, string apiKey = "")
+        public static string GetJsonMapResponseThrowProxy(string addressOrLatlng, Constants.TypeOfMapGrabbing type, string apiKey = "")
         {
             string GETRequestLink = type == Constants.TypeOfMapGrabbing.ByAddress ? Constants.GoogleRequestParams.AddressMapsQueryPattern + addressOrLatlng.Replace(" ", "+") :
                 Constants.GoogleRequestParams.LatlngMapsQueryPattern + addressOrLatlng; //в адресе заменяем пробелы на плюсы для соответствия формату запроса + исходя из типа, задаем правильный текст запроса
@@ -47,7 +47,7 @@ namespace TruliaMapsGoogleAPIParser
             {
                 GETRequestLink += "&key=" + apiKey;
             }
-            return WebHelpers.GetWebResponceContentThrowProxy(GETRequestLink, proxy);
+            return WebHelpers.GetWebResponceContentThrowProxy(GETRequestLink, ProxySolver.Instance.getNewProxy());
         }
 
         #endregion
@@ -78,7 +78,7 @@ namespace TruliaMapsGoogleAPIParser
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
             long TruliaCount = DataProviders.DataProvider.Instance.GetCount(); //смотрим, сколько записей в таблице
             Console.WriteLine(TruliaCount);
-            int range = 1000;
+            int range = 10000;
             for (int i = 1; i <= TruliaCount; i += range)
             {
                 if ((i - 1) % 1000 == 0)
@@ -94,19 +94,21 @@ namespace TruliaMapsGoogleAPIParser
                 {
                     adresses = GetAddressesByRange(i, i + range - 1);
                 }
-                for(int j = 0;j < adresses.Count;j++)
+                Parallel.ForEach(adresses, options, address =>
                 {
-                    Console.WriteLine(adresses[j].PlaceName);
-                    adresses[j].ParseJSON();
-                    if(adresses[j].JSON != String.Empty)
+                    //for (int j = 0;j < adresses.Count;j++)
+
+                    Console.WriteLine(address.PlaceName);
+                    address.ParseJSON();
+                    if (address.JSON != Constants.WebAttrsNames.NotFound)
                     {
-                        if (AddressParser.ReadJsonToObject(adresses[j].JSON).status == Constants.GoogleMapsGeocodingStatusCodes.OVER_QUERY_LIMIT)
+                        if (AddressParser.ReadJsonToObject(address.JSON).status == Constants.GoogleMapsGeocodingStatusCodes.OVER_QUERY_LIMIT)
                         {
                             return;
                         }
-                    }                    
-                    adresses[j].InsertIntoDb();
-                }
+                    }
+                    address.InsertIntoDb();
+                });
                 //Parallel.ForEach(adresses,options, address => {
                 //    address.ParseJSON();
                 //    address.InsertIntoDb();
@@ -139,6 +141,7 @@ namespace TruliaMapsGoogleAPIParser
             //DataContractJsonSerializer ser = new DataContractJsonSerializer(deserializedUser.GetType());
             //deserializedUser = ser.ReadObject(ms) as User;
             //ms.Close();
+                
             deserializedObject = JsonConvert.DeserializeObject<GeocodeJsonObject>(json);
             return deserializedObject;
         }
@@ -149,14 +152,16 @@ namespace TruliaMapsGoogleAPIParser
         {
             long TruliaCount = DataProviders.DataProvider.Instance.GetPlacesCount(); //смотрим, сколько записей в таблице
             Console.WriteLine(TruliaCount);
-            int range = 1000;
+            int range = 10000;
             for (int i = 0; i <= TruliaCount; i += range)
             {
+
                 if ((i) % 1000 == 0)
                 {
                     Console.WriteLine("Now {0} cells", i);
                 }
                 List<AddressInfo> adresses;
+                Console.WriteLine("Getting next part...");
                 if (i + range > TruliaCount)
                 {
                     adresses = GetJSONPlacesFromDb(i, TruliaCount);
@@ -165,22 +170,25 @@ namespace TruliaMapsGoogleAPIParser
                 {
                     adresses = GetJSONPlacesFromDb(i, i + range - 1);
                 }
-                for (int j = 0; j < adresses.Count; j++)
+                ParallelOptions options = new ParallelOptions();
+                options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
+                Parallel.ForEach(adresses, options, address =>
                 {
                     //Console.WriteLine(adresses[j].PlaceLink);
-                    if (adresses[j].PlaceName != Constants.TruliaDbAddressNulls.NoPlaceName)
+                    if (address.JSON != String.Empty && address.JSON != Constants.WebAttrsNames.NotFound)
                     {
-                        GeocodeJsonObject o = ReadJsonToObject(adresses[j].PlaceName);
-                        RooftopResultPlace res = new RooftopResultPlace(o, adresses[j].ID);
+                        GeocodeJsonObject o = ReadJsonToObject(address.JSON);
+                        RooftopResultPlace res = new RooftopResultPlace(o, address.ID);
 
                         res.InsertToDb();
                     }
                     else
                     {
-                        Console.WriteLine("Запись с номером ID={0} не содержит JSON");
+                        Console.WriteLine("Запись с номером ID={0} не содержит JSON", address.ID);
                     }
-                }
-                
+                });
+
+
 
             }
         }

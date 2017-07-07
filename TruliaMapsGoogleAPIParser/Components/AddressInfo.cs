@@ -29,6 +29,7 @@ namespace TruliaMapsGoogleAPIParser.Components
         {
             ID = Convert.ToInt64(dataRow[0]);
             PlaceName = dataRow[1].ToString();
+            JSON = dataRow[2].ToString();
         }
 
         public override string ToString()
@@ -40,19 +41,29 @@ namespace TruliaMapsGoogleAPIParser.Components
             SqlCommand insertAddress = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_InsertPlaceInfo, Resources.DbTruliaConnectionString);
             insertAddress.Parameters.AddWithValue("@ID", ID);
             insertAddress.Parameters.AddWithValue("@Address", ((object)PlaceName) ?? (DBNull.Value));
-            insertAddress.Parameters.AddWithValue("@JSON", ((object)JSON) ?? (DBNull.Value));
+            insertAddress.Parameters.AddWithValue("@JSON", JSON != Constants.WebAttrsNames.NotFound ? (object)JSON : (DBNull.Value));
             DataProviders.DataProvider.Instance.ExecureSP(insertAddress);
         }
         public string ParseJSON()
         {
-            if (PlaceName != Constants.TruliaDbAddressNulls.NoPlaceName)
+            while(true)
             {
-                JSON = AddressParser.GetJsonMapResponse(PlaceName.Replace(Constants.GoogleStringRequestInDb.ByName, String.Empty), Constants.TypeOfMapGrabbing.ByAddress);
+                if (PlaceName != Constants.TruliaDbAddressNulls.NoPlaceName)
+                {
+                    JSON = AddressParser.GetJsonMapResponseThrowProxy(PlaceName, Constants.TypeOfMapGrabbing.ByAddress);
+                }
+                else
+                {
+                    Console.WriteLine(PlaceName);
+                    throw new Exception();
+
+                }
+                if(JSON != Constants.WebAttrsNames.NotFound)
+                {
+                    break;
+                }
             }
-            else
-            {
-                Console.WriteLine(PlaceName);
-            }
+            
             return JSON;
         }
     }

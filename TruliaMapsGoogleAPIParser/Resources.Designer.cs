@@ -79,7 +79,7 @@ namespace TruliaMapsGoogleAPIParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на 20.
+        ///   Ищет локализованную строку, похожую на 40.
         /// </summary>
         public static string MaxDegreeOfParallelism {
             get {

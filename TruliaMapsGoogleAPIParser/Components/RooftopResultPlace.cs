@@ -38,7 +38,7 @@ namespace TruliaMapsGoogleAPIParser.Components
             GeocodeJsonObject.Result res = o.results.Find(i => i.geometry.location_type == Constants.GoogleLocationTypes.ROOFTOP || i.geometry.location_type == Constants.GoogleLocationTypes.RANGE_INTERPOLATED);
             if(res == null)
             {
-                Console.WriteLine("Нет точных данных в результатах.");
+                Console.WriteLine("Нет точных данных в результатах.,ID = {0}", ID_);
                 return;
             }
             res.address_components.ForEach(i =>
@@ -110,6 +110,7 @@ namespace TruliaMapsGoogleAPIParser.Components
             insertJsonInfo.Parameters.AddWithValue("@country_short", country_short != String.Empty ? (object)country_short : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@ID"                             , ID);
             DataProviders.DataProvider.Instance.ExecureSP(insertJsonInfo);
+            //Console.WriteLine("Record inserted, ID = {0}",ID);
         }
     }
 }
