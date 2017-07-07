@@ -61,20 +61,11 @@ namespace TruliaMapsGoogleAPIParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Data Source=rentml.database.windows.net;Initial Catalog=Trulia;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True.
+        ///   Ищет локализованную строку, похожую на Data Source=rentml.database.windows.net;Initial Catalog=Trulia;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=25;Encrypt=False;TrustServerCertificate=True.
         /// </summary>
         public static string DbTruliaConnectionString {
             get {
                 return ResourceManager.GetString("DbTruliaConnectionString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на Data Source=NOTEBOOK;Integrated Security=True;Initial Catalog=TruliaPlaces.
-        /// </summary>
-        public static string DbTruliaPlacesConnectionString {
-            get {
-                return ResourceManager.GetString("DbTruliaPlacesConnectionString", resourceCulture);
             }
         }
         
@@ -88,7 +79,7 @@ namespace TruliaMapsGoogleAPIParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на 2.
+        ///   Ищет локализованную строку, похожую на 20.
         /// </summary>
         public static string MaxDegreeOfParallelism {
             get {

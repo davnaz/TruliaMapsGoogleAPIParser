@@ -17,29 +17,27 @@ namespace TruliaMapsGoogleAPIParser.Components
 
         public long ID { get; set; } = -1;
         public string PlaceName { get; set; } = Constants.TruliaDbAddressNulls.NoPlaceName;
-        public string PlaceLink { get; set; } = Constants.TruliaDbAddressNulls.NoLink;
         public string JSON { get; protected set; } = String.Empty;
         public AddressInfo(long id, string placeName, string placeLink)
         {
             ID = id;
             PlaceName = placeName;
-            PlaceLink = placeLink;
+
         }
 
         public AddressInfo(DataRow dataRow)
         {
             ID = Convert.ToInt64(dataRow[0]);
             PlaceName = dataRow[1].ToString();
-            PlaceLink = dataRow[2].ToString();
         }
 
         public override string ToString()
         {
-            return String.Format("ID: {0}, PlaceName: {1}, PlaceLink: {2}", ID, PlaceName, PlaceLink);
+            return String.Format("ID: {0}, PlaceName: {1}", ID, PlaceName);
         }
         public void InsertIntoDb()
         {
-            SqlCommand insertAddress = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_InsertPlaceInfo, Resources.DbTruliaPlacesConnectionString);
+            SqlCommand insertAddress = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_InsertPlaceInfo, Resources.DbTruliaConnectionString);
             insertAddress.Parameters.AddWithValue("@ID", ID);
             insertAddress.Parameters.AddWithValue("@Address", ((object)PlaceName) ?? (DBNull.Value));
             insertAddress.Parameters.AddWithValue("@JSON", ((object)JSON) ?? (DBNull.Value));
@@ -47,20 +45,13 @@ namespace TruliaMapsGoogleAPIParser.Components
         }
         public string ParseJSON()
         {
-            if(PlaceLink != Constants.TruliaDbAddressNulls.NoLink)
+            if (PlaceName != Constants.TruliaDbAddressNulls.NoPlaceName)
             {
-                if (PlaceLink.Contains("q=loc"))
-                {
-                    JSON = AddressParser.GetJsonMapResponse(PlaceLink.Replace(Constants.GoogleStringRequestInDb.ByName, String.Empty), Constants.TypeOfMapGrabbing.ByAddress);
-                }
-                else if (PlaceLink.Contains("maps/preview"))
-                {
-                    JSON = AddressParser.GetJsonMapResponse(PlaceLink.Replace(Constants.GoogleStringRequestInDb.ByLatlng, String.Empty).Replace(",16z",""), Constants.TypeOfMapGrabbing.ByLatlng);
-                }
-                else
-                {
-                    Console.WriteLine(PlaceLink);
-                }
+                JSON = AddressParser.GetJsonMapResponse(PlaceName.Replace(Constants.GoogleStringRequestInDb.ByName, String.Empty), Constants.TypeOfMapGrabbing.ByAddress);
+            }
+            else
+            {
+                Console.WriteLine(PlaceName);
             }
             return JSON;
         }

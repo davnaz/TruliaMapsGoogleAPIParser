@@ -18,7 +18,7 @@ namespace TruliaMapsGoogleAPIParser
         WebProxy proxy;
         public AddressParser()
         {
-           // proxy = ProxySolver.Instance.getNewProxy();
+           proxy = ProxySolver.Instance.getNewProxy();
         }
         #region Методы для получения данных местоположения через Google Maps Geocoding API
         /// <summary>
@@ -78,10 +78,10 @@ namespace TruliaMapsGoogleAPIParser
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
             long TruliaCount = DataProviders.DataProvider.Instance.GetCount(); //смотрим, сколько записей в таблице
             Console.WriteLine(TruliaCount);
-            int range = 100;
-            for (int i = 7500; i <= TruliaCount; i += range)
+            int range = 1000;
+            for (int i = 1; i <= TruliaCount; i += range)
             {
-                if ((i - 1) % 2000 == 0)
+                if ((i - 1) % 1000 == 0)
                 {
                     Console.WriteLine("Now {0} cells", i - 1);
                 }
@@ -96,7 +96,7 @@ namespace TruliaMapsGoogleAPIParser
                 }
                 for(int j = 0;j < adresses.Count;j++)
                 {
-                    Console.WriteLine(adresses[j].PlaceLink);
+                    Console.WriteLine(adresses[j].PlaceName);
                     adresses[j].ParseJSON();
                     if(adresses[j].JSON != String.Empty)
                     {
@@ -149,12 +149,12 @@ namespace TruliaMapsGoogleAPIParser
         {
             long TruliaCount = DataProviders.DataProvider.Instance.GetPlacesCount(); //смотрим, сколько записей в таблице
             Console.WriteLine(TruliaCount);
-            int range = 100;
-            for (int i = 1; i <= TruliaCount; i += range)
+            int range = 1000;
+            for (int i = 0; i <= TruliaCount; i += range)
             {
-                if ((i - 1) % 2000 == 0)
+                if ((i) % 1000 == 0)
                 {
-                    Console.WriteLine("Now {0} cells", i - 1);
+                    Console.WriteLine("Now {0} cells", i);
                 }
                 List<AddressInfo> adresses;
                 if (i + range > TruliaCount)
@@ -168,9 +168,9 @@ namespace TruliaMapsGoogleAPIParser
                 for (int j = 0; j < adresses.Count; j++)
                 {
                     //Console.WriteLine(adresses[j].PlaceLink);
-                    if (adresses[j].PlaceLink != String.Empty && adresses[j].PlaceLink != Constants.WebAttrsNames.NotFound)
+                    if (adresses[j].PlaceName != Constants.TruliaDbAddressNulls.NoPlaceName)
                     {
-                        GeocodeJsonObject o = ReadJsonToObject(adresses[j].PlaceLink);
+                        GeocodeJsonObject o = ReadJsonToObject(adresses[j].PlaceName);
                         RooftopResultPlace res = new RooftopResultPlace(o, adresses[j].ID);
 
                         res.InsertToDb();

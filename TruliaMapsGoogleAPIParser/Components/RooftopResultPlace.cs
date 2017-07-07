@@ -13,17 +13,17 @@ namespace TruliaMapsGoogleAPIParser.Components
         public string route { get; set; } = String.Empty;
         public string locality                  {get; set; } = String.Empty;
         public string county                    {get; set; } = String.Empty;
-        public int postal_code               {get; set; } = -1;
-        public string state                     {get; set;}
-        public int postal_code_short         {get; set; } = -1;
+        public string postal_code { get; set; } = String.Empty;
+        public string state { get; set; } = String.Empty;
+        public string postal_code_short         {get; set; } = String.Empty;
         public string county_short              {get; set; } = String.Empty;
         public string locality_short            {get; set; } = String.Empty;
         public string route_short               {get; set; } = String.Empty;
         public string street_number_short       {get; set; } = String.Empty;
         public string state_short               {get; set; } = String.Empty;
         public string formatted_address         {get; set; } = String.Empty;
-        public int postal_code_suffix        {get; set; } = -1;
-        public int postal_code_suffix_short  {get; set; } = -1;
+        public string postal_code_suffix        {get; set; } = String.Empty;
+        public string postal_code_suffix_short  {get; set; } = String.Empty;
         public string country                   {get; set; } = String.Empty;
         public string country_short { get; set; } = String.Empty;
         public long ID { get; set; } = -1;
@@ -58,12 +58,12 @@ namespace TruliaMapsGoogleAPIParser.Components
                         locality_short = i.short_name;
                         break;
                     case Constants.GoogleAddressComponentsTypes.postal_code:
-                        postal_code =       Convert.ToInt32(i.long_name );
-                        postal_code_short = Convert.ToInt32(i.short_name);
+                        postal_code =       i.long_name ;
+                        postal_code_short = i.short_name;
                         break;
                     case Constants.GoogleAddressComponentsTypes.postal_code_suffix:
-                        postal_code_suffix = Convert.ToInt32(i.long_name);
-                        postal_code_suffix_short = Convert.ToInt32(i.short_name);
+                        postal_code_suffix = i.long_name;
+                        postal_code_suffix_short = i.short_name;
                         break;
                     case Constants.GoogleAddressComponentsTypes.route:
                         route = i.long_name;
@@ -90,22 +90,22 @@ namespace TruliaMapsGoogleAPIParser.Components
                 return; //если это пустой объект
             }
                 
-            SqlCommand insertJsonInfo = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_SetParsedJsonInfo, Resources.DbTruliaPlacesConnectionString);
+            SqlCommand insertJsonInfo = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_SetParsedJsonInfo, Resources.DbTruliaConnectionString);
             insertJsonInfo.Parameters.AddWithValue("@street_number", street_number != String.Empty ? (object)street_number : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@route", route != String.Empty ? (object)route : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@locality"                      , locality                 !=String.Empty ? (object) locality                : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@county"                        ,county                    !=String.Empty ?  (object)county                   : DBNull.Value);
-            insertJsonInfo.Parameters.AddWithValue("@postal_code"                   ,postal_code               !=-1 ?            (object)postal_code              : DBNull.Value);
+            insertJsonInfo.Parameters.AddWithValue("@postal_code"                   ,postal_code               != String.Empty ?            (object)postal_code              : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@state"                         ,state                     !=String.Empty ?  (object)state                    : DBNull.Value);
-            insertJsonInfo.Parameters.AddWithValue("@postal_code_short"             ,postal_code_short         !=-1 ?            (object)postal_code_short        : DBNull.Value);
+            insertJsonInfo.Parameters.AddWithValue("@postal_code_short"             ,postal_code_short         != String.Empty ?            (object)postal_code_short        : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@county_short"                  ,county_short              !=String.Empty ?  (object)county_short             : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@locality_short"                ,locality_short            !=String.Empty ?  (object)locality_short           : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@route_short"                   ,route_short               !=String.Empty ?  (object)route_short              : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@street_number_short"           ,street_number_short       != String.Empty ?            (object)street_number_short      : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@state_short"                   ,state_short               !=String.Empty ?  (object)state_short              : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@formatted_address"             ,formatted_address         !=String.Empty ?  (object)formatted_address        : DBNull.Value);
-            insertJsonInfo.Parameters.AddWithValue("@postal_code_suffix"            ,postal_code_suffix        !=-1 ?            (object)postal_code_suffix       : DBNull.Value);
-            insertJsonInfo.Parameters.AddWithValue("@postal_code_suffix_short"      ,postal_code_suffix_short  !=-1 ?            (object)postal_code_suffix_short : DBNull.Value);
+            insertJsonInfo.Parameters.AddWithValue("@postal_code_suffix"            ,postal_code_suffix        != String.Empty ?            (object)postal_code_suffix       : DBNull.Value);
+            insertJsonInfo.Parameters.AddWithValue("@postal_code_suffix_short"      ,postal_code_suffix_short  != String.Empty ?            (object)postal_code_suffix_short : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@country", country == String.Empty ? (object)country : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@country_short", country_short != String.Empty ? (object)country_short : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@ID"                             , ID);

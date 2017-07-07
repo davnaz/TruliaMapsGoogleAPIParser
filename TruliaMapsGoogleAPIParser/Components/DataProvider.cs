@@ -351,7 +351,7 @@ namespace TruliaMapsGoogleAPIParser.DataProviders
         /// <returns>Dataset c записями о местоположении</returns>
         public DataSet GetDatasetFromTruliaPlaces(long begin, long end)
         {
-            SqlConnection conn = new SqlConnection(Resources.DbTruliaPlacesConnectionString);
+            SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = $"EXEC [dbo].[{Resources.SP_GetPlacesRange}] @Start = {begin}, @End = {end}";
@@ -372,7 +372,7 @@ namespace TruliaMapsGoogleAPIParser.DataProviders
             SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
-            cmd.CommandText = $"SELECT MAX(ID) FROM Offerstable";
+            cmd.CommandText = $"SELECT MAX(ID) FROM Offers";
             conn.Open();
 
             SqlDataReader rd = cmd.ExecuteReader();
@@ -387,7 +387,7 @@ namespace TruliaMapsGoogleAPIParser.DataProviders
         }
         internal long GetPlacesCount()
         {
-            SqlConnection conn = new SqlConnection(Resources.DbTruliaPlacesConnectionString);
+            SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = $"SELECT MAX(ID) FROM ParsedPlaces";
