@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // набора атрибутов. Измените значения этих атрибутов, чтобы изменить сведения,
 // связанные со сборкой.
 [assembly: AssemblyTitle("TruliaMapsGoogleAPIParser")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("This program was written by David Nazluyan")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("TruliaMapsGoogleAPIParser")]

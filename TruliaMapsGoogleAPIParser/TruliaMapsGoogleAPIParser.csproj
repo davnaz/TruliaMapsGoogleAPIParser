@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{323ACE14-07E6-4915-BAD8-83363EAEF721}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CraigslistMapsGoogleAPIParser</RootNamespace>
-    <AssemblyName>CraigslistMapsGoogleAPIParser</AssemblyName>
+    <RootNamespace>TruliaMapsGoogleAPIParser</RootNamespace>
+    <AssemblyName>TruliaMapsGoogleAPIParser</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
