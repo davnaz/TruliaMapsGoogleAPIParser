@@ -1,5 +1,5 @@
-﻿using CraigslistMapsGoogleAPIParser.Components;
-using CraigslistMapsGoogleAPIParser.DataProviders;
+﻿using TruliaMapsGoogleAPIParser.Components;
+using TruliaMapsGoogleAPIParser.DataProviders;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CraigslistMapsGoogleAPIParser
+namespace TruliaMapsGoogleAPIParser
 {
     public class AddressParser
     {
@@ -52,20 +52,20 @@ namespace CraigslistMapsGoogleAPIParser
 
         #endregion
 
-        #region Методы для обработки исходной таблицы Offers БД CraigsList
+        #region Методы для обработки исходной таблицы Offers БД Trulia
 
         public List<AddressInfo> GetAddressesByRange(long start, long end)
         {
-            DataTable CraigsListAddressesDataTable = DataProvider.Instance.GetDataset(start, end).Tables[0];
-            //DataProvider.ConsoleView(CraigsListAddressesDataTable); //выводим на консоль
+            DataTable TruliaAddressesDataTable = DataProvider.Instance.GetDataset(start, end).Tables[0];
+            //DataProvider.ConsoleView(TruliaAddressesDataTable); //выводим на консоль
             ParallelOptions options = new ParallelOptions();
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
 
             List<AddressInfo> addresses = new List<AddressInfo>();
-            //Parallel.For(0, CraigsListAddressesDataTable.Rows.Count, options, (cur) =>
-            for(int i = 0; i < CraigsListAddressesDataTable.Rows.Count; i++)
+            //Parallel.For(0, TruliaAddressesDataTable.Rows.Count, options, (cur) =>
+            for(int i = 0; i < TruliaAddressesDataTable.Rows.Count; i++)
             {
-                addresses.Add(new AddressInfo(CraigsListAddressesDataTable.Rows[i]));
+                addresses.Add(new AddressInfo(TruliaAddressesDataTable.Rows[i]));
             }
             return addresses;
         }
@@ -76,19 +76,19 @@ namespace CraigslistMapsGoogleAPIParser
         {
             ParallelOptions options = new ParallelOptions();
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
-            long CraigslistCount = DataProviders.DataProvider.Instance.GetCount(); //смотрим, сколько записей в таблице
-            Console.WriteLine(CraigslistCount);
+            long TruliaCount = DataProviders.DataProvider.Instance.GetCount(); //смотрим, сколько записей в таблице
+            Console.WriteLine(TruliaCount);
             int range = 100;
-            for (int i = 7500; i <= CraigslistCount; i += range)
+            for (int i = 7500; i <= TruliaCount; i += range)
             {
                 if ((i - 1) % 2000 == 0)
                 {
                     Console.WriteLine("Now {0} cells", i - 1);
                 }
                 List<AddressInfo> adresses;
-                if (i + range > CraigslistCount)
+                if (i + range > TruliaCount)
                 {
-                    adresses = GetAddressesByRange(i, CraigslistCount);
+                    adresses = GetAddressesByRange(i, TruliaCount);
                 }
                 else
                 {
@@ -118,16 +118,16 @@ namespace CraigslistMapsGoogleAPIParser
 
         public List<AddressInfo> GetJSONPlacesFromDb(long start, long end)
         {
-            DataTable CraigsListAddressesDataTable = DataProvider.Instance.GetDatasetFromCraigslistPlaces(start, end).Tables[0];
-            //DataProvider.ConsoleView(CraigsListAddressesDataTable); //выводим на консоль
+            DataTable TruliaAddressesDataTable = DataProvider.Instance.GetDatasetFromTruliaPlaces(start, end).Tables[0];
+            //DataProvider.ConsoleView(TruliaAddressesDataTable); //выводим на консоль
             ParallelOptions options = new ParallelOptions();
             options.MaxDegreeOfParallelism = Convert.ToInt32(Resources.MaxDegreeOfParallelism);
 
             List<AddressInfo> addresses = new List<AddressInfo>();
-            //Parallel.For(0, CraigsListAddressesDataTable.Rows.Count, options, (cur) =>
-            for (int i = 0; i < CraigsListAddressesDataTable.Rows.Count; i++)
+            //Parallel.For(0, TruliaAddressesDataTable.Rows.Count, options, (cur) =>
+            for (int i = 0; i < TruliaAddressesDataTable.Rows.Count; i++)
             {
-                addresses.Add(new AddressInfo(CraigsListAddressesDataTable.Rows[i]));
+                addresses.Add(new AddressInfo(TruliaAddressesDataTable.Rows[i]));
             }
             return addresses;
         }
@@ -147,19 +147,19 @@ namespace CraigslistMapsGoogleAPIParser
         /// </summary>
         public void ConvertJsonStringFromDbToCells()
         {
-            long CraigslistCount = DataProviders.DataProvider.Instance.GetPlacesCount(); //смотрим, сколько записей в таблице
-            Console.WriteLine(CraigslistCount);
+            long TruliaCount = DataProviders.DataProvider.Instance.GetPlacesCount(); //смотрим, сколько записей в таблице
+            Console.WriteLine(TruliaCount);
             int range = 100;
-            for (int i = 1; i <= CraigslistCount; i += range)
+            for (int i = 1; i <= TruliaCount; i += range)
             {
                 if ((i - 1) % 2000 == 0)
                 {
                     Console.WriteLine("Now {0} cells", i - 1);
                 }
                 List<AddressInfo> adresses;
-                if (i + range > CraigslistCount)
+                if (i + range > TruliaCount)
                 {
-                    adresses = GetJSONPlacesFromDb(i, CraigslistCount);
+                    adresses = GetJSONPlacesFromDb(i, TruliaCount);
                 }
                 else
                 {

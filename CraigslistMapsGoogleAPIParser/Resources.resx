@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="DbCraigslistConnectionString" xml:space="preserve">
-    <value>Data Source=rentml.database.windows.net;Initial Catalog=CraigsList;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True</value>
+  <data name="DbTruliaConnectionString" xml:space="preserve">
+    <value>Data Source=rentml.database.windows.net;Initial Catalog=Trulia;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True</value>
     <comment>Эта строка нужна для подключения к БД FT на удаленном серваке</comment>
   </data>
   <data name="MaxProxyPing" xml:space="preserve">
@@ -143,13 +143,13 @@
   <data name="GoogleAPIKey" xml:space="preserve">
     <value>AIzaSyArN6iEXHOZRBjvfrnMV3VcqKUvzP7Rm1o</value>
   </data>
-  <data name="DbCraigslistPlacesConnectionString" xml:space="preserve">
-    <value>Data Source=NOTEBOOK;Integrated Security=True;Initial Catalog=CraigslistPlaces</value>
+  <data name="DbTruliaPlacesConnectionString" xml:space="preserve">
+    <value>Data Source=NOTEBOOK;Integrated Security=True;Initial Catalog=TruliaPlaces</value>
     <comment>Локальная БД, куда запишется информация об адресах</comment>
   </data>
   <data name="SP_GetAddressRange" xml:space="preserve">
     <value>SP_getAddressListByRange</value>
-    <comment>Вытаскивает таблицу с ID, PlaceName и PlaceLink из CraigsList.OffersTable</comment>
+    <comment>Вытаскивает таблицу с ID, PlaceName и PlaceLink из Trulia.OffersTable</comment>
   </data>
   <data name="SP_InsertPlaceInfo" xml:space="preserve">
     <value>InsertPlaceInfo</value>

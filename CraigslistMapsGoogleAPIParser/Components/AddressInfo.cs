@@ -6,18 +6,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CraigslistMapsGoogleAPIParser.Components
+namespace TruliaMapsGoogleAPIParser.Components
 {
     /// <summary>
-    /// Описывает структуру строки, получаемой из исходной таблицы OffersTable для БД CraigsList
+    /// Описывает структуру строки, получаемой из исходной таблицы OffersTable для БД Trulia
     /// </summary>
     public class AddressInfo
     {
         
 
         public long ID { get; set; } = -1;
-        public string PlaceName { get; set; } = Constants.CraigsListDbAddressNulls.NoPlaceName;
-        public string PlaceLink { get; set; } = Constants.CraigsListDbAddressNulls.NoLink;
+        public string PlaceName { get; set; } = Constants.TruliaDbAddressNulls.NoPlaceName;
+        public string PlaceLink { get; set; } = Constants.TruliaDbAddressNulls.NoLink;
         public string JSON { get; protected set; } = String.Empty;
         public AddressInfo(long id, string placeName, string placeLink)
         {
@@ -39,7 +39,7 @@ namespace CraigslistMapsGoogleAPIParser.Components
         }
         public void InsertIntoDb()
         {
-            SqlCommand insertAddress = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_InsertPlaceInfo, Resources.DbCraigslistPlacesConnectionString);
+            SqlCommand insertAddress = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_InsertPlaceInfo, Resources.DbTruliaPlacesConnectionString);
             insertAddress.Parameters.AddWithValue("@ID", ID);
             insertAddress.Parameters.AddWithValue("@Address", ((object)PlaceName) ?? (DBNull.Value));
             insertAddress.Parameters.AddWithValue("@JSON", ((object)JSON) ?? (DBNull.Value));
@@ -47,7 +47,7 @@ namespace CraigslistMapsGoogleAPIParser.Components
         }
         public string ParseJSON()
         {
-            if(PlaceLink != Constants.CraigsListDbAddressNulls.NoLink)
+            if(PlaceLink != Constants.TruliaDbAddressNulls.NoLink)
             {
                 if (PlaceLink.Contains("q=loc"))
                 {

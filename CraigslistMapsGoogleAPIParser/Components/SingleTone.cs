@@ -1,5 +1,5 @@
 ﻿
-namespace CraigslistMapsGoogleAPIParser.Components
+namespace TruliaMapsGoogleAPIParser.Components
 {    
     public class SingleTone<T> where T : class, new()
     {

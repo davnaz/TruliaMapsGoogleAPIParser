@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CraigslistMapsGoogleAPIParser.Components
+namespace TruliaMapsGoogleAPIParser.Components
 {
     public class GeocodeJsonObject
     {

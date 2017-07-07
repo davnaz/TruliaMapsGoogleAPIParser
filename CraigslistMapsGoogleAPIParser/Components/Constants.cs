@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CraigslistMapsGoogleAPIParser.Components
+namespace TruliaMapsGoogleAPIParser.Components
 {
     public class Constants
     {
@@ -63,7 +63,7 @@ namespace CraigslistMapsGoogleAPIParser.Components
         }
 
         /// <summary>
-        /// Это типы ссылок, которые используются в БД CraigsList для сохранения адреса
+        /// Это типы ссылок, которые используются в БД Trulia для сохранения адреса
         /// </summary>
         public class GoogleStringRequestInDb
         {
@@ -77,7 +77,7 @@ namespace CraigslistMapsGoogleAPIParser.Components
             ByLatlng
         }
 
-        public class CraigsListDbAddressNulls
+        public class TruliaDbAddressNulls
         {
             public const string NoPlaceName = "No Place Name";
             public const string NoLink = "No link";

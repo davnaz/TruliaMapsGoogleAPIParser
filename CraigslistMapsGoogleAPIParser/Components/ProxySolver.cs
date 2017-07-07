@@ -1,4 +1,4 @@
-﻿using CraigslistMapsGoogleAPIParser;
+﻿using TruliaMapsGoogleAPIParser;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.NetworkInformation;
 
-namespace CraigslistMapsGoogleAPIParser.Components
+namespace TruliaMapsGoogleAPIParser.Components
 {
      
     public class ProxySolver: SingleTone<ProxySolver>

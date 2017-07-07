@@ -1,9 +1,9 @@
 ﻿using System.Data.SqlClient;
 using System.Data;
 using System;
-using CraigslistMapsGoogleAPIParser.Components;
+using TruliaMapsGoogleAPIParser.Components;
 
-namespace CraigslistMapsGoogleAPIParser.DataProviders
+namespace TruliaMapsGoogleAPIParser.DataProviders
 {
     public class DataProvider : SingleTone<DataProvider>
     {
@@ -20,11 +20,11 @@ namespace CraigslistMapsGoogleAPIParser.DataProviders
                 SqlConnection sqlConnection = null;
                 if (sqlConnection == null)
                 {
-                    sqlConnection = new SqlConnection(Resources.DbCraigslistConnectionString);
+                    sqlConnection = new SqlConnection(Resources.DbTruliaConnectionString);
                 }
                 if (string.IsNullOrEmpty(sqlConnection.ConnectionString))
                 {
-                    sqlConnection.ConnectionString = Resources.DbCraigslistConnectionString;
+                    sqlConnection.ConnectionString = Resources.DbTruliaConnectionString;
                 }
                 return sqlConnection;
             }
@@ -323,14 +323,14 @@ namespace CraigslistMapsGoogleAPIParser.DataProviders
             }
         }
         /// <summary>
-        /// Получает Записи из БД Craigslist 
+        /// Получает Записи из БД Trulia 
         /// </summary>
         /// <param name="begin">Параметр начального индекса записсей в БД включительно</param>
         /// <param name="end">Параметр конечного индекса записсей в БД включительно</param>
         /// <returns>Dataset c записями согласно процедуре</returns>
         public DataSet GetDataset(long begin, long end)
         {
-            SqlConnection conn = new SqlConnection(Resources.DbCraigslistConnectionString);
+            SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = $"EXEC [dbo].[{Resources.SP_GetAddressRange}] @BEGIN = {begin}, @END = {end}";
@@ -344,14 +344,14 @@ namespace CraigslistMapsGoogleAPIParser.DataProviders
             return ds;
         }
         /// <summary>
-        /// Получает Записи из БД CraigslistPlaces 
+        /// Получает Записи из БД TruliaPlaces 
         /// </summary>
         /// <param name="begin">Параметр начального индекса записсей в БД включительно</param>
         /// <param name="end">Параметр конечного индекса записсей в БД включительно</param>
         /// <returns>Dataset c записями о местоположении</returns>
-        public DataSet GetDatasetFromCraigslistPlaces(long begin, long end)
+        public DataSet GetDatasetFromTruliaPlaces(long begin, long end)
         {
-            SqlConnection conn = new SqlConnection(Resources.DbCraigslistPlacesConnectionString);
+            SqlConnection conn = new SqlConnection(Resources.DbTruliaPlacesConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = $"EXEC [dbo].[{Resources.SP_GetPlacesRange}] @Start = {begin}, @End = {end}";
@@ -369,7 +369,7 @@ namespace CraigslistMapsGoogleAPIParser.DataProviders
 
         internal long GetCount()
         {
-            SqlConnection conn = new SqlConnection(Resources.DbCraigslistConnectionString);
+            SqlConnection conn = new SqlConnection(Resources.DbTruliaConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = $"SELECT MAX(ID) FROM Offerstable";
@@ -387,7 +387,7 @@ namespace CraigslistMapsGoogleAPIParser.DataProviders
         }
         internal long GetPlacesCount()
         {
-            SqlConnection conn = new SqlConnection(Resources.DbCraigslistPlacesConnectionString);
+            SqlConnection conn = new SqlConnection(Resources.DbTruliaPlacesConnectionString);
             SqlDataAdapter da = new SqlDataAdapter();
             SqlCommand cmd = conn.CreateCommand();
             cmd.CommandText = $"SELECT MAX(ID) FROM ParsedPlaces";

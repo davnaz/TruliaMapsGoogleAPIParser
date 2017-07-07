@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace CraigslistMapsGoogleAPIParser {
+namespace TruliaMapsGoogleAPIParser {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace CraigslistMapsGoogleAPIParser {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("CraigslistMapsGoogleAPIParser.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TruliaMapsGoogleAPIParser.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,20 +61,20 @@ namespace CraigslistMapsGoogleAPIParser {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Data Source=rentml.database.windows.net;Initial Catalog=CraigsList;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True.
+        ///   Ищет локализованную строку, похожую на Data Source=rentml.database.windows.net;Initial Catalog=Trulia;Integrated Security=False;User ID=rentml;Password=mlrent-1404;Connect Timeout=15;Encrypt=False;TrustServerCertificate=True.
         /// </summary>
-        public static string DbCraigslistConnectionString {
+        public static string DbTruliaConnectionString {
             get {
-                return ResourceManager.GetString("DbCraigslistConnectionString", resourceCulture);
+                return ResourceManager.GetString("DbTruliaConnectionString", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на Data Source=NOTEBOOK;Integrated Security=True;Initial Catalog=CraigslistPlaces.
+        ///   Ищет локализованную строку, похожую на Data Source=NOTEBOOK;Integrated Security=True;Initial Catalog=TruliaPlaces.
         /// </summary>
-        public static string DbCraigslistPlacesConnectionString {
+        public static string DbTruliaPlacesConnectionString {
             get {
-                return ResourceManager.GetString("DbCraigslistPlacesConnectionString", resourceCulture);
+                return ResourceManager.GetString("DbTruliaPlacesConnectionString", resourceCulture);
             }
         }
         

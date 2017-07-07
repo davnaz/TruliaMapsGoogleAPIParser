@@ -1,5 +1,5 @@
 ﻿
-namespace CraigsListParser.Helpers
+namespace TruliaParser.Helpers
 {    
     public class SingleTone<T> where T : class, new()
     {

@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CraigslistMapsGoogleAPIParser.Components
+namespace TruliaMapsGoogleAPIParser.Components
 {
     class RooftopResultPlace
     {
@@ -90,7 +90,7 @@ namespace CraigslistMapsGoogleAPIParser.Components
                 return; //если это пустой объект
             }
                 
-            SqlCommand insertJsonInfo = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_SetParsedJsonInfo, Resources.DbCraigslistPlacesConnectionString);
+            SqlCommand insertJsonInfo = DataProviders.DataProvider.Instance.CreateSQLCommandForSP(Resources.SP_SetParsedJsonInfo, Resources.DbTruliaPlacesConnectionString);
             insertJsonInfo.Parameters.AddWithValue("@street_number", street_number != String.Empty ? (object)street_number : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@route", route != String.Empty ? (object)route : DBNull.Value);
             insertJsonInfo.Parameters.AddWithValue("@locality"                      , locality                 !=String.Empty ? (object) locality                : DBNull.Value);
